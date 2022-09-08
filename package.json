@@ -1,0 +1,25 @@
+{
+  "name": "economic-indicators-cl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camipozas/economic-indicators-cl.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/camipozas/economic-indicators-cl/issues"
+  },
+  "homepage": "https://github.com/camipozas/economic-indicators-cl#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cache-manager": "^4.1.0",
+    "dayjs": "^1.11.5",
+    "dotenv": "^16.0.2"
+  }
+}
