@@ -31,3 +31,5 @@ const main = async () => {
         ...ipcData,
     };
 };
+
+module.exports = main;
