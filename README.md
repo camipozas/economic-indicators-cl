@@ -14,7 +14,7 @@ This repository contains a collection of economic indicators for Chile. The data
 
 `GET https://economic-api.cam1pozas.xyz/api `
 
-### Get specific currency
+## Get specific currency
 
 `GET https://economic-api.cam1pozas.xyz/api?currency=name`
 
@@ -26,7 +26,7 @@ This repository contains a collection of economic indicators for Chile. The data
 
 > You can filter in upper or lower case.
 
-### Get many currencies
+## Get many currencies
 
 `GET https://economic-api.cam1pozas.xyz/api?currency=name1,name2,name3`
 
