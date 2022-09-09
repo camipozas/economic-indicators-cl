@@ -31,5 +31,3 @@ const main = async () => {
         ...ipcData,
     };
 };
-
-main();
