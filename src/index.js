@@ -30,6 +30,7 @@ const main = async () => {
         ...utmData,
         ...ipcData,
     };
+    return mergedData;
 };
 
 module.exports = main;
