@@ -16,9 +16,14 @@ export default async function handler(
 
     console.log(currency);
     if (currency === undefined) {
-        const data = await main();
-        console.log({ data });
-        return response.status(200).json(data);
+        try {
+            console.log("querying");
+            const data = await main();
+            console.log({ data });
+            return response.status(200).json(data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const currencies =
