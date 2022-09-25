@@ -1,18 +1,22 @@
 require("dotenv").config();
 const axios = require("axios");
+const dayjs = require("dayjs");
 
 const memoryCache = require("../cache");
 
 /**
- * It makes a request to the CMF API and returns the data
+ * It gets the latest EUR exchange rate from the Chilean Central Bank API
  * @param date - The date you want to get the EUR for.
- * @returns The data is being returned.
+ * @returns The latest EUR value
  */
 const getEURWithoutCache = async (date) => {
     const { data } = await axios.get(
-        `https://api.cmfchile.cl/api-sbifv3/recursos_api/euro/${date}?apikey=${process.env.CMF_API_KEY}&formato=json`
+        `https://api.cmfchile.cl/api-sbifv3/recursos_api/euro/posteriores/${date}?apikey=${process.env.CMF_API_KEY}&formato=json`
     );
-    return data;
+    const [latest] = data.Euros.sort(
+        (fecha) => -1 * dayjs().diff(dayjs(fecha["Fecha"]))
+    );
+    return latest;
 };
 
 /**

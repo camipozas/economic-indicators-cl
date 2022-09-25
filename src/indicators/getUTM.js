@@ -1,18 +1,22 @@
 require("dotenv").config();
 const axios = require("axios");
+const dayjs = require("dayjs");
 
 const memoryCache = require("../cache");
 
 /**
- * It gets the UTM value for a given date from the Central Bank of Chile's API
+ * It gets the latest UTM value from the Chilean Central Bank's API
  * @param date - The date you want to get the UTM for.
- * @returns The UTM value for the given date.
+ * @returns The latest UTM value
  */
 const getUTMWithoutCache = async (date) => {
     const { data } = await axios.get(
-        `https://api.cmfchile.cl/api-sbifv3/recursos_api/utm/${date}?apikey=${process.env.CMF_API_KEY}&formato=json`
+        `https://api.cmfchile.cl/api-sbifv3/recursos_api/utm/posteriores/${date}?apikey=${process.env.CMF_API_KEY}&formato=json`
     );
-    return data;
+    const [latest] = data.UTMs.sort(
+        (fecha) => -1 * dayjs().diff(dayjs(fecha["Fecha"]))
+    );
+    return latest;
 };
 
 /**

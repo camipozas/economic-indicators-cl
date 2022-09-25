@@ -1,5 +1,6 @@
 require("dotenv").config();
 const axios = require("axios");
+const dayjs = require("dayjs");
 
 const memoryCache = require("../cache");
 
@@ -10,9 +11,12 @@ const memoryCache = require("../cache");
  */
 const getIPCWithoutCache = async (date) => {
     const { data } = await axios.get(
-        `https://api.cmfchile.cl/api-sbifv3/recursos_api/ipc/${date}?apikey=${process.env.CMF_API_KEY}&formato=json`
+        `https://api.cmfchile.cl/api-sbifv3/recursos_api/ipc/posteriores/${date}?apikey=${process.env.CMF_API_KEY}&formato=json`
     );
-    return data;
+    const [latest] = data.IPCs.sort(
+        (fecha) => -1 * dayjs().diff(dayjs(fecha["Fecha"]))
+    );
+    return latest;
 };
 
 /**

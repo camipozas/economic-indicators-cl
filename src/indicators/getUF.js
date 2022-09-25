@@ -1,18 +1,22 @@
 require("dotenv").config();
 const axios = require("axios");
+const dayjs = require("dayjs");
 
 const memoryCache = require("../cache");
 
 /**
- * It gets the UF value for a given date from the CMF API
- * @param date - The date you want to get the UF value for.
- * @returns The data is being returned.
+ * It gets the latest UF value from the CMF API
+ * @param date - The date you want to get the UF for.
+ * @returns The latest UF value
  */
 const getUFWithoutCache = async (date) => {
     const { data } = await axios.get(
-        `https://api.cmfchile.cl/api-sbifv3/recursos_api/uf/${date}?apikey=${process.env.CMF_API_KEY}&formato=json`
+        `https://api.cmfchile.cl/api-sbifv3/recursos_api/uf/posteriores/${date}?apikey=${process.env.CMF_API_KEY}&formato=json`
     );
-    return data;
+    const [latest] = data.UFs.sort(
+        (fecha) => -1 * dayjs().diff(dayjs(fecha["Fecha"]))
+    );
+    return latest;
 };
 
 /**

@@ -8,28 +8,41 @@ const getUTM = require("./indicators/getUTM");
 const getIPC = require("./indicators/getIPC");
 
 /**
- * It fetches data from the Central Bank of Chile's API, merges it into a single object, and returns it
+ * It fetches data from the Central Bank of Chile's API, and returns a single object with all the data
+ * @returns An object with the following structure:
+ * {
+ *     UF: {
+ *         date: "2020-04-01",
+ *         value: 28.8
+ *     },
+ *     USD: {
+ *         date: "2020-04-01",
+ *         value: 755.5
+ *     },
+ *     EUR: {
+ *         date: "2020-04-01",
  */
 const main = async () => {
-    const today = dayjs().format("YYYY/MM/[dias]/DD");
-    const thisMonth = dayjs().format("YYYY/MM");
+    const sevenDaysAgo = dayjs().subtract(7, "day").format("YYYY/MM/[dias]/DD");
     const lastMonth = dayjs().subtract(1, "month").format("YYYY/MM");
+    const twoMonthBefore = dayjs().subtract(2, "month").format("YYYY/MM");
 
     const [ufData, usdData, eurData, utmData, ipcData] = await Promise.all([
-        getUF(today),
-        getUSD(today),
-        getEUR(today),
-        getUTM(thisMonth),
-        getIPC(lastMonth),
+        getUF(sevenDaysAgo),
+        getUSD(sevenDaysAgo),
+        getEUR(sevenDaysAgo),
+        getUTM(lastMonth),
+        getIPC(twoMonthBefore),
     ]);
 
     const mergedData = {
-        ...ufData,
-        ...usdData,
-        ...eurData,
-        ...utmData,
-        ...ipcData,
+        UF: ufData,
+        USD: usdData,
+        EUR: eurData,
+        UTM: utmData,
+        IPC: ipcData,
     };
+
     return mergedData;
 };
 
