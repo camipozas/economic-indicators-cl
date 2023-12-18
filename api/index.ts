@@ -1,34 +1,32 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import main from "../src/index.js";
-import query from "../src/query.js";
+import { main } from "../src/index.js";
+import { query } from "../src/query.js";
 
 /**
  * It takes a request, and returns a response
- * @param {VercelRequest} request - The incoming request object.
- * @param {VercelResponse} response - VercelResponse
  * @returns a promise that resolves to an array of objects.
  */
 export default async function handler(
-    request: VercelRequest,
-    response: VercelResponse
+	request: VercelRequest,
+	response: VercelResponse
 ) {
-    const currency = request.query?.currency;
+	const currency = request.query?.currency;
 
-    console.log(currency);
-    if (currency === undefined) {
-        try {
-            console.log("querying");
-            const data = await main();
-            console.log({ data });
-            return response.status(200).json(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+	console.log(currency);
+	if (currency === undefined) {
+		try {
+			console.log("querying");
+			const data = await main();
+			console.log({ data });
+			return response.status(200).json(data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
-    const currencies =
-        typeof currency === "string" ? currency.split(",") : currency;
+	const currencies =
+		typeof currency === "string" ? currency.split(",") : currency;
 
-    const data = await query(currencies);
-    response.status(200).json(data);
+	const data = await query(currencies);
+	response.status(200).json(data);
 }
