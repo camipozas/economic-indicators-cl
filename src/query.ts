@@ -59,7 +59,7 @@ export const query = async (
     .map(async currency => {
       const fetcher = currencyMap[currency]!;
       const date = fetcherDateMap[currency]();
-      return fetcher(date);
+      return { [currency]: await fetcher(date) };
     });
 
   const currenciesData = await Promise.all(currenciesFetchers);
