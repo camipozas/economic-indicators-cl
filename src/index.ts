@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 import { getUF } from './indicators/getUF';
 import { getUSD } from './indicators/getUSD';
