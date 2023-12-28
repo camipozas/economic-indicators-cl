@@ -40,7 +40,7 @@ type MergedData = Record<string, IndicatorData>;
  * }
  */
 export const main = async (): Promise<MergedData> => {
-	const sevenDaysAgo = dayjs().subtract(7, "day").format("YYYY/MM/DD");
+	const sevenDaysAgo = dayjs().subtract(7, "day").format("YYYY/MM/[dias]/DD");
 	const twoMonthAgo = dayjs().subtract(2, "month").format("YYYY/MM");
 	const threeMonthAgo = dayjs().subtract(3, "month").format("YYYY/MM");
 
