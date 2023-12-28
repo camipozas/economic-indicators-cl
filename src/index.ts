@@ -1,14 +1,14 @@
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
-import { getUF } from "./indicators/getUF";
-import { getUSD } from "./indicators/getUSD";
-import { getEUR } from "./indicators/getEUR";
-import { getUTM } from "./indicators/getUTM";
-import { getIPC } from "./indicators/getIPC";
+import { getUF } from './indicators/getUF';
+import { getUSD } from './indicators/getUSD';
+import { getEUR } from './indicators/getEUR';
+import { getUTM } from './indicators/getUTM';
+import { getIPC } from './indicators/getIPC';
 
 type IndicatorData = {
-	Fecha: Date;
-	Valor: number;
+  Fecha: Date;
+  Valor: number;
 };
 
 type MergedData = Record<string, IndicatorData>;
@@ -40,41 +40,41 @@ type MergedData = Record<string, IndicatorData>;
  * }
  */
 export const main = async (): Promise<MergedData> => {
-	const sevenDaysAgo = dayjs().subtract(7, "day").format("YYYY/MM/[dias]/DD");
-	const twoMonthAgo = dayjs().subtract(2, "month").format("YYYY/MM");
-	const threeMonthAgo = dayjs().subtract(3, "month").format("YYYY/MM");
+  const sevenDaysAgo = dayjs().subtract(7, 'day').format('YYYY/MM/[dias]/DD');
+  const twoMonthAgo = dayjs().subtract(2, 'month').format('YYYY/MM');
+  const threeMonthAgo = dayjs().subtract(3, 'month').format('YYYY/MM');
 
-	const [ufData, usdData, eurData, utmData, ipcData] = await Promise.allSettled(
-		[
-			getUF(sevenDaysAgo),
-			getUSD(sevenDaysAgo),
-			getEUR(sevenDaysAgo),
-			getUTM(twoMonthAgo),
-			getIPC(threeMonthAgo),
-		]
-	);
+  const [ufData, usdData, eurData, utmData, ipcData] = await Promise.allSettled(
+    [
+      getUF(sevenDaysAgo),
+      getUSD(sevenDaysAgo),
+      getEUR(sevenDaysAgo),
+      getUTM(twoMonthAgo),
+      getIPC(threeMonthAgo),
+    ],
+  );
 
-	const mergedData: MergedData = {};
+  const mergedData: MergedData = {};
 
-	if (ufData.status === "fulfilled") {
-		mergedData.UF = ufData.value;
-	}
+  if (ufData.status === 'fulfilled') {
+    mergedData.UF = ufData.value;
+  }
 
-	if (usdData.status === "fulfilled") {
-		mergedData.USD = usdData.value;
-	}
+  if (usdData.status === 'fulfilled') {
+    mergedData.USD = usdData.value;
+  }
 
-	if (eurData.status === "fulfilled") {
-		mergedData.EUR = eurData.value;
-	}
+  if (eurData.status === 'fulfilled') {
+    mergedData.EUR = eurData.value;
+  }
 
-	if (utmData.status === "fulfilled") {
-		mergedData.UTM = utmData.value;
-	}
+  if (utmData.status === 'fulfilled') {
+    mergedData.UTM = utmData.value;
+  }
 
-	if (ipcData.status === "fulfilled") {
-		mergedData.IPC = ipcData.value;
-	}
+  if (ipcData.status === 'fulfilled') {
+    mergedData.IPC = ipcData.value;
+  }
 
-	return mergedData;
+  return mergedData;
 };

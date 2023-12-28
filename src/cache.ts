@@ -1,4 +1,4 @@
-import * as cacheManager from "cache-manager";
+import * as cacheManager from 'cache-manager';
 // import * as redisStore from "cache-manager-redis-store";
 
 /*
@@ -13,8 +13,8 @@ const redisCache = cacheManager.caching({
 */
 
 const memoryCache = cacheManager.caching({
-	store: "memory",
-	ttl: 60 * 60, // 1 hour
+  store: 'memory',
+  ttl: 60 * 60, // 1 hour
 });
 
 export { memoryCache };
