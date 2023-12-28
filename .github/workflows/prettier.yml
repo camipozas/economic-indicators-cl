@@ -1,0 +1,30 @@
+name: Run Prettier
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  remark:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install dependencies
+        run: yarn install
+      - name: Run Lint
+        run: yarn lint
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 🚨 apply automatic fixes
+          
