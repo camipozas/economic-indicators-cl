@@ -33,7 +33,7 @@ or
 
 | Parameter | Description                                                                                                            |
 | --------- | ---------------------------------------------------------------------------------------------------------------------- |
-| name      | The name of the currency you want to get. The name must be in lowercase. For example: `uf`, `utm`, `ipc`, `usd`, `eur` |
+| name      | The name of the currency you want to get. For example: `uf`, `utm`, `ipc`, `usd`, `eur` |
 
 > [!TIP]
 > You can filter in upper or lower case. Is not case sensitive.
@@ -46,10 +46,10 @@ or
 
 `GET https://economic-api.camipg.com/api?currency=name1,name2,name3`
 
-| Parameter | Description                                                                                                            |
-| --------- | ---------------------------------------------------------------------------------------------------------------------- |
-| name1     | The name of the currency you want to get. The name must be in lowercase. For example: `uf`, `utm`, `ipc`, `usd`, `eur` |
-| name2     | idem                                                                                                                   |
+| Parameter | Description                                                                             |
+| --------- | --------------------------------------------------------------------------------------- |
+| name1     | The name of the currency you want to get. For example: `uf`, `utm`, `ipc`, `usd`, `eur` |
+| name2     | The name of the currency you want to get. For example: `uf`, `utm`, `ipc`, `usd`, `eur` |
 
 ## Status Codes
 
