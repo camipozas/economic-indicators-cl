@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { main } from '../src/index.js';
-import { query } from '../src/query.js';
+import { main } from '../src/index';
+import { query } from '../src/query';
 
 /**
  * It takes a request, and returns a response

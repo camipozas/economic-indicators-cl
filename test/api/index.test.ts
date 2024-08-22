@@ -2,13 +2,15 @@ import request from 'supertest';
 import http from 'http';
 import handler from '../../api/index';
 
+type Currencies = Record<string, string>;
+
 const currencies = {
     UF: "UF",
     USD: "USD",
     EUR: "EUR",
     UTM: "UTM",
     IPC: "IPC"
-}
+} as const satisfies Currencies;
 
 type MergedData = {
     [key in keyof typeof currencies]: {
@@ -25,60 +27,41 @@ const expectedResponse: MergedData = {
     "IPC": { "Fecha": "2023-11-01", "Valor": "0,7" }
 }
 
-const mockGetUF = jest.fn().mockResolvedValue(expectedResponse.UF);
-const mockGetUSD = jest.fn().mockResolvedValue(expectedResponse.USD);
-const mockGetEUR = jest.fn().mockResolvedValue(expectedResponse.EUR);
-const mockGetUTM = jest.fn().mockResolvedValue(expectedResponse.UTM);
-const mockGetIPC = jest.fn().mockResolvedValue(expectedResponse.IPC);
-
-jest.mock('../../src/indicators/getUF', () => {
-    return {
-        getUF: mockGetUF,
-    };
-});
-
-jest.mock('../../src/indicators/getUSD', () => {
-    return {
-        getUSD: mockGetUSD,
-    };
-});
-
-jest.mock('../../src/indicators/getEUR', () => {
-    return {
-        getEUR: mockGetEUR,
-    };
-});
-
-jest.mock('../../src/indicators/getUTM', () => {
-    return {
-        getUTM: mockGetUTM,
-    };
-});
-
-jest.mock('../../src/indicators/getIPC', () => {
-    return {
-        getIPC: mockGetIPC,
-    };
-});
-
 describe('api: index', () => {
     let server: http.Server;
 
+    jest.mock('../../src/indicators/getUF', () => ({
+        getUF: jest.fn().mockResolvedValue(expectedResponse.UF),
+    }));
+    
+    jest.mock('../../src/indicators/getUSD', () => ({
+        getUSD: jest.fn().mockResolvedValue(expectedResponse.USD),
+    }));
+    
+    jest.mock('../../src/indicators/getEUR', () => ({
+        getEUR: jest.fn().mockResolvedValue(expectedResponse.EUR),
+    }));
+    
+    jest.mock('../../src/indicators/getUTM', () => ({
+        getUTM: jest.fn().mockResolvedValue(expectedResponse.UTM),
+    }));
+    
+    jest.mock('../../src/indicators/getIPC', () => ({
+        getIPC: jest.fn().mockResolvedValue(expectedResponse.IPC),
+    }));
+
     beforeAll(() => {
-        // Creamos un servidor HTTP que escuche en un puerto libre
         server = http.createServer((req, res) => {
             handler(req as any, res as any);
         });
 
-        server.listen(0); // 0 significa que se asignará un puerto libre automáticamente
+        server.listen(0);
     });
 
     afterAll((done) => {
-        // Cerramos el servidor después de todas las pruebas
         server.close(done);
     });
 
-    // Probamos el endpoint usando supertest en el servidor que creamos
     test('[SUCCESS] should return all indicators', async () => {
         const response = await request(server)
           .get('/')
